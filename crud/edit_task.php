@@ -53,20 +53,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Editar Tarefa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-            display: flex;
             font-family: 'Times New Roman', Times, serif;
             margin: 0;
-            background: #f0f2f5;
+            display: flex;
+            min-height: 100vh;
+            background: #f5f5f5;
         }
 
         .sidebar {
             width: 220px;
             background: #6a0dad;
             color: #fff;
-            min-height: 100vh;
             padding: 30px 20px;
+            box-sizing: border-box;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #fff;
         }
 
         .sidebar a {
@@ -75,7 +83,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             text-decoration: none;
             padding: 15px 10px;
             margin-bottom: 10px;
+            font-size: 18px;
             border-radius: 8px;
+            transition: background 0.2s;
         }
 
         .sidebar a:hover {
@@ -85,15 +95,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .main {
             flex: 1;
             padding: 30px;
+        }
+
+        .card {
             background: #fff;
+            padding: 30px;
             border-radius: 8px;
-            margin: 40px auto;
             max-width: 600px;
+            margin: 40px auto;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         h2 {
             text-align: center;
+            color: #6a0dad;
         }
 
         label {
@@ -109,9 +124,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             padding: 10px;
             margin-top: 5px;
             border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 15px;
+            border-radius: 5px;
+            font-size: 14px;
             font-family: inherit;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
         }
 
         .btn-container {
@@ -128,9 +148,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             cursor: pointer;
             font-size: 16px;
             font-family: inherit;
+            transition: background 0.2s;
             margin: 5px;
-            text-decoration: none;
-            display: inline-block;
         }
 
         .btn:hover {
@@ -140,11 +159,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .btn-cancel {
             background: #dc3545;
             text-decoration: none;
+            display: inline-block;
             color: #fff;
         }
 
         .btn-cancel:hover {
-            background: #b71c1c;
+            background: #c82333;
         }
 
         .message {
@@ -156,15 +176,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         .error {
-            background: #f8d7da;
+            background-color: #f8d7da;
             color: #721c24;
             border-color: #f5c6cb;
         }
 
         .success {
-            background: #d4edda;
+            background-color: #d4edda;
             color: #155724;
             border-color: #c3e6cb;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                text-align: center;
+            }
+
+            .main {
+                padding: 20px;
+            }
         }
     </style>
     <?php if ($success): ?>
@@ -186,34 +221,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <div class="main">
-        <h2>Editar Tarefa</h2>
+        <div class="card">
+            <h2>Editar Tarefa</h2>
 
-        <?php foreach ($errors as $err): ?>
-            <div class="message error"><?= htmlspecialchars($err) ?></div>
-        <?php endforeach; ?>
+            <?php foreach ($errors as $err): ?>
+                <div class="message error"><?= htmlspecialchars($err) ?></div>
+            <?php endforeach; ?>
 
-        <?php if ($success): ?>
-            <div class="message success"><?= htmlspecialchars($success) ?></div>
-        <?php endif; ?>
+            <?php if ($success): ?>
+                <div class="message success"><?= htmlspecialchars($success) ?></div>
+            <?php endif; ?>
 
-        <form method="POST">
-            <label for="titulo">Título</label>
-            <input type="text" name="titulo" id="titulo" value="<?= htmlspecialchars($tarefa['titulo']) ?>">
+            <form method="POST">
+                <label for="titulo">Título</label>
+                <input type="text" name="titulo" id="titulo" value="<?= htmlspecialchars($tarefa['titulo']) ?>">
 
-            <label for="descricao">Descrição</label>
-            <textarea name="descricao" id="descricao"><?= htmlspecialchars($tarefa['descricao']) ?></textarea>
+                <label for="descricao">Descrição</label>
+                <textarea name="descricao" id="descricao"><?= htmlspecialchars($tarefa['descricao']) ?></textarea>
 
-            <label for="status">Status</label>
-            <select name="status" id="status">
-                <option value="pendente" <?= $tarefa['status'] === 'pendente' ? 'selected' : '' ?>>Pendente</option>
-                <option value="concluida" <?= $tarefa['status'] === 'concluida' ? 'selected' : '' ?>>Concluída</option>
-            </select>
+                <label for="status">Status</label>
+                <select name="status" id="status">
+                    <option value="pendente" <?= $tarefa['status'] === 'pendente' ? 'selected' : '' ?>>Pendente</option>
+                    <option value="concluida" <?= $tarefa['status'] === 'concluida' ? 'selected' : '' ?>>Concluída</option>
+                </select>
 
-            <div class="btn-container">
-                <button type="submit" class="btn">Atualizar Tarefa</button>
-                <a href="list_task.php" class="btn btn-cancel">Cancelar</a>
-            </div>
-        </form>
+                <div class="btn-container">
+                    <button type="submit" class="btn">Atualizar Tarefa</button>
+                    <a href="list_task.php" class="btn btn-cancel">Cancelar</a>
+                </div>
+            </form>
+        </div>
     </div>
 </body>
 

@@ -54,7 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             text-align: center;
             margin-bottom: 40px;
             color: #fff;
-            /* Menu em branco */
         }
 
         .sidebar a {
@@ -80,7 +79,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         h2 {
             text-align: center;
             color: #6a0dad;
-            /* Criar Tarefa em roxo */
         }
 
         form label {
@@ -190,30 +188,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <div class="main">
-        <h2>Criar Tarefa</h2>
+        <div
+            style="background:#fff; padding:30px; border-radius:8px; max-width:600px; margin:40px auto; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+            <h2>Criar Tarefa</h2>
 
-        <?php foreach ($errors as $err): ?>
-            <div class="message error"><?= htmlspecialchars($err) ?></div>
-        <?php endforeach; ?>
-        <?php if ($success): ?>
-            <div class="message success"><?= htmlspecialchars($success) ?></div>
-        <?php endif; ?>
+            <?php foreach ($errors as $err): ?>
+                <div class="message error"><?= htmlspecialchars($err) ?></div>
+            <?php endforeach; ?>
+            <?php if ($success): ?>
+                <div class="message success"><?= htmlspecialchars($success) ?></div>
+            <?php endif; ?>
 
-        <form method="POST">
-            <label for="titulo">Título</label>
-            <input type="text" name="titulo" id="titulo" placeholder="Digite o título da tarefa"
-                value="<?= htmlspecialchars($titulo ?? '') ?>">
+            <form method="POST">
+                <label for="titulo">Título</label>
+                <input type="text" name="titulo" id="titulo" placeholder="Digite o título da tarefa"
+                    value="<?= htmlspecialchars($titulo ?? '') ?>">
 
-            <label for="descricao">Descrição (opcional)</label>
-            <textarea name="descricao" id="descricao"
-                placeholder="Digite a descrição da tarefa"><?= htmlspecialchars($descricao ?? '') ?></textarea>
+                <label for="descricao">Descrição (opcional)</label>
+                <textarea name="descricao" id="descricao"
+                    placeholder="Digite a descrição da tarefa"><?= htmlspecialchars($descricao ?? '') ?></textarea>
 
-            <div class="btn-container">
-                <button type="submit" class="btn">Criar Tarefa</button>
-                <a href="list_task.php" class="btn btn-cancel">Cancelar</a>
-            </div>
-        </form>
+                <div class="btn-container">
+                    <button type="submit" class="btn">Criar Tarefa</button>
+                    <a href="list_task.php" class="btn btn-cancel">Cancelar</a>
+                </div>
+            </form>
+        </div>
     </div>
+
 </body>
 
 </html>
